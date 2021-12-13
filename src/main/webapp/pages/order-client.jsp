@@ -4,7 +4,7 @@
     <title>Order Records</title>
 </head>
 <body>
-<h1>List of all orders:</h1>
+<h1>List of your orders:</h1>
 <table style="border: 1px solid black;">
     <thead>
     <tr>
@@ -27,6 +27,8 @@
     </c:forEach>
     </tbody>
 </table>
-<a href="templates/order-creation.jsp">Create new order</a>
+<form action="pages/order-creation.jsp", method="get">
+    <button>Create new order</button>
+</form>
 </body>
 </html>

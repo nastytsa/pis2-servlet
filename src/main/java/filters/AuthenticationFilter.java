@@ -25,7 +25,7 @@ public class AuthenticationFilter implements Filter {
         HttpSession session = httpRequest.getSession();
 
         if(session.getAttribute("user") == null) {
-            RequestDispatcher rd = request.getRequestDispatcher("templates/login-with-error.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("pages/login-invalid.jsp");
             rd.include(request, response);
         }
         chain.doFilter(httpRequest, httpResponse);

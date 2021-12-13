@@ -23,7 +23,7 @@ public class OrderCommand {
             Collection<Order> orders = OrderService.getClientOrders(user.getId());
             request.setAttribute("clientOrderList", orders);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/templates/order-client.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/order-client.jsp");
             try {
                 dispatcher.forward(request, response);
                 return;
@@ -37,7 +37,7 @@ public class OrderCommand {
             if(order_id != null){
                 Order order = OrderService.getOrderById(Long.valueOf(order_id));
                 request.setAttribute("order", order);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/templates/order-edit.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/order-edit.jsp");
                 try {
                     dispatcher.forward(request, response);
                     return;
@@ -48,7 +48,7 @@ public class OrderCommand {
             Collection<Order> orders = OrderService.getAllOrders();
             request.setAttribute("orderList", orders);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/templates/order-all.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/order-all.jsp");
             try {
                 dispatcher.forward(request, response);
                 return;
@@ -59,35 +59,17 @@ public class OrderCommand {
 
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response, ServletContext servletContext) throws IOException, ServletException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         User user = (User) request.getSession().getAttribute("user");
         if(user.getRole() == RoleEnum.CLIENT){
             String content = request.getParameter("content");
             OrderService.create(user.getId(), content);
-            Collection<Order> orders = OrderService.getClientOrders(user.getId());
-
-            request.setAttribute("clientOrderList", orders);
-            RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/templates/order-client.jsp");
-            try {
-                dispatcher.forward(request, response);
-                return;
-            } catch (ServletException e) {
-                e.printStackTrace();
-            }
+            response.sendRedirect("/orders");
         }
         if(user.getRole() == RoleEnum.ADMIN){
             Order order = obtainOrder(request);
             OrderService.update(order);
-            Collection<Order> orders = OrderService.getAllOrders();
-
-            request.setAttribute("orderList", orders);
-            RequestDispatcher dispatcher = servletContext.getRequestDispatcher("/templates/order-all.jsp");
-            try {
-                dispatcher.forward(request, response);
-                return;
-            } catch (ServletException e) {
-                e.printStackTrace();
-            }
+            response.sendRedirect("/orders");
         }
     }
 
@@ -99,6 +81,6 @@ public class OrderCommand {
         String status = request.getParameter("status");
         String content = request.getParameter("content");
 
-        return new Order(Long.valueOf(order_id), comment, Long.valueOf(client_id), BigDecimal.valueOf(Long.parseLong(price)), status, content);
+        return new Order(Long.valueOf(order_id), comment, Long.valueOf(client_id), new BigDecimal(price), status, content);
     }
 }

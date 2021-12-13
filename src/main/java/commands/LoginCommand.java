@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class LoginCommand {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("templates/login.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("pages/login.jsp");
         try {
             dispatcher.forward(request, response);
         } catch (ServletException e) {

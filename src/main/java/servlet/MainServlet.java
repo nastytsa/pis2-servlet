@@ -28,7 +28,7 @@ public class MainServlet extends HttpServlet{
         processPostRequest(request, response);
     }
 
-    private void processGetRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+    private void processGetRequest(HttpServletRequest request, HttpServletResponse response) throws IOException{
         switch (request.getServletPath()){
             case "/":
                 LoginCommand loginCommand = new LoginCommand();
@@ -51,7 +51,7 @@ public class MainServlet extends HttpServlet{
                 break;
             case "/orders":
                 OrderCommand orderCommand = new OrderCommand();
-                orderCommand.doPost(request, response, getServletContext());
+                orderCommand.doPost(request, response);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + request.getServletPath());
